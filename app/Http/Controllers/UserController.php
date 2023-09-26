@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Hash;
+use Throwable;
 
 class UserController extends Controller
 {
@@ -29,11 +34,36 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
      */
-    public function store(Request $request)
+    public function store(Request $request): Redirector|RedirectResponse|Application
     {
-        //
+        $request->validate([
+            "email" => "unique:users",
+            "document" => "unique:users"
+        ],[
+            "email.unique" => "El correo electronico ya existe",
+            "document.unique" => "El documento ya existe"
+        ]);
+
+        try {
+            User::create([
+                "name" => $request->name,
+                "document" => $request->document,
+                "email" => $request->email,
+                "password" => Hash::make($request->password),
+                "role_id" => $request->role_id,
+            ]);
+            return redirect(route("users.index"))
+                ->with("success","El usuario ".$request->name." fue creado");
+
+        }catch (Throwable){
+            return redirect(route("users.index"))
+                ->with("error","Error al crear el usuario");
+        }
+
+
     }
 
     /**
