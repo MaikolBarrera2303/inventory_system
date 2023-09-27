@@ -20,7 +20,9 @@ class UserController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        return view("users.index");
+        return view("users.index",[
+            "users" => User::with("roles")->paginate(10)
+        ]);
     }
 
     /**
@@ -58,7 +60,8 @@ class UserController extends Controller
             return redirect(route("users.index"))
                 ->with("success","El usuario ".$request->name." fue creado");
 
-        }catch (Throwable){
+        }catch (Throwable $exception){
+            logger(json_encode($exception->getMessage()));
             return redirect(route("users.index"))
                 ->with("error","Error al crear el usuario");
         }

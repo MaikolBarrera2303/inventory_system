@@ -16,15 +16,31 @@
         </div>
     @endif
 
-    Hola  {{ auth()->user()->name  }}
-    <br>
-    Inicio de sesion
-    <br>
-    <a href="{{ route("users.create") }}">Crear Usuarios</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">NOMBRE</th>
+            <th scope="col">CORREO</th>
+            <th scope="col">DOCUMENTO</th>
+            <th scope="col">ROL</th>
+            <th scope="col">OPCIONES</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($users as $user)
+            <tr>
+                <th scope="row">{{ $user->id }}</th>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->email }}</td>
+                <td>{{ $user->document }}</td>
+                <td>{{ $user->roles->name }}</td>
+                <td></td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
 
-    <form method="post" action="{{ route("logout") }}">
-        @csrf
-        <button type="submit">Cerrar sesion</button>
-    </form>
+    {{ $users->links() }}
 
 @endsection

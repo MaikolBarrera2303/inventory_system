@@ -7,7 +7,7 @@
     <form action="{{ route("users.store") }}" method="post">
         @csrf
         <label for="name">Nombre</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name" required value="{{ old("name") }}">
         <br>
 
         <label for="email">Correo Electronico</label>
