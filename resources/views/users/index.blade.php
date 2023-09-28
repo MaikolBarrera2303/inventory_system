@@ -4,17 +4,7 @@
 
 @section("content")
 
-    @if(session("success"))
-        <div class="alert alert-success" role="alert">
-            {{ session("success") }}
-        </div>
-    @endif
-
-    @if(session("error"))
-        <div class="alert alert-danger" role="alert">
-            {{ session("error") }}
-        </div>
-    @endif
+    @include("layout.messages")
 
     <table class="table">
         <thead>
@@ -24,7 +14,6 @@
             <th scope="col">CORREO</th>
             <th scope="col">DOCUMENTO</th>
             <th scope="col">ROL</th>
-            <th scope="col">OPCIONES</th>
         </tr>
         </thead>
         <tbody>

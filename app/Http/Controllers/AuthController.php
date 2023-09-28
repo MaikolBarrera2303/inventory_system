@@ -32,6 +32,7 @@ class AuthController extends Controller
 
         if ($user && Hash::check($request->password,$user->password)){
             Auth::login($user);
+            session(["cart" => []]);
             return redirect(route("users.index"));
         }
 

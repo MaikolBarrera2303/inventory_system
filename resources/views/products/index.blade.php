@@ -4,17 +4,18 @@
 
 @section("content")
 
-    @if(session("success"))
-        <div class="alert alert-success" role="alert">
-            {{ session("success") }}
-        </div>
-    @endif
+    @include("layout.messages")
 
-    @if(session("error"))
-        <div class="alert alert-danger" role="alert">
-            {{ session("error") }}
-        </div>
-    @endif
+    <form action="{{ route("products.index") }}" method="get" style="margin: 20px">
+        <select name="typeSearch" id="typeSearch" required>
+            <option selected disabled value="">Seleccionar</option>
+            <option value="name">Nombre</option>
+            <option value="code">Codigo</option>
+        </select>
+        <input type="text" name="search" id="search" required>
+        <button type="submit" name="browser">Buscar</button>
+    </form>
+
 
     <table class="table text-center">
         <thead>
@@ -40,10 +41,30 @@
                 </td>
                 <td>{{ "$ ".number_format($product->price,0,",",'.') }}</td>
                 <td>
-                    <a href="{{ route("products.show",$product->id) }}">Informacion</a>
-                    <a href="{{ route("products.edit",$product->id) }}">editar</a>
+                    <a type="button" class="link-underline-info" data-bs-toggle="modal"
+                       data-bs-target="#products_show{{ $product->id }}">
+                        Informacion
+                    </a>
+                    <a type="button" class="link-underline-info" data-bs-toggle="modal"
+                       data-bs-target="#products_edit{{ $product->id }}">
+                        Editar
+                    </a>
+                    <a type="button" class="link-underline-info" data-bs-toggle="modal"
+                            data-bs-target="#products_quantity{{ $product->id }}">
+                        Agregar cantidad
+                    </a>
+                    <a type="button" class="link-underline-info" data-bs-toggle="modal"
+                       data-bs-target="#products_delete{{ $product->id }}">
+                        Eliminar producto
+                    </a>
                 </td>
             </tr>
+
+            @include("products.modals.quantity")
+            @include("products.modals.show")
+            @include("products.modals.edit")
+            @include("products.modals.delete")
+
         @endforeach
         </tbody>
     </table>

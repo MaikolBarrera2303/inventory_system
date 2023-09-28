@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SaleController;
+use App\Http\Controllers\SaleOrderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +28,13 @@ Route::post("logout",[AuthController::class,"destroy"])->name("logout");
 
 Route::middleware("authentication")->group(function (){
     Route::resource("users",UserController::class);
-    Route::resource("products",ProductController::class);
+    Route::resource("products",ProductController::class)
+        ->except("show");
+    Route::get("products/deleted",[ProductController::class,"deleted"])->name("products.deleted");
+    Route::put("products/quantity/{product}",[ProductController::class,"quantity"])->name("products.quantity");
+
+    Route::resource("sale-orders",SaleOrderController::class);
+
 });
 
 

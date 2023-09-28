@@ -4,13 +4,7 @@
 
 @section("content")
 
-    {{-- En esta seccion va el mensaje de alerta si no inicia sesion , se puede cambiar la estructura html
-        pero no el if o {{  }} --}}
-    @if(session("message"))
-        <div class="alert alert-danger" role="alert">
-            {{ session("message") }}
-        </div>
-    @endif
+    @include("layout.messages")
 
     {{--
     Formulario para el Login , no modificar :
@@ -28,7 +22,6 @@
         <input id="password" name="password" type="password" required>
         <br>
         <button type="submit">Iniciar Sesion</button>
-        <a href="{{ route("users.create") }}"> Registarse</a>
     </form>
 
 @endsection

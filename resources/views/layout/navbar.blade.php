@@ -3,16 +3,28 @@
     <nav>
         <ul>
             <li><a href="">Inicio</a></li>
-            <li> Usuarios
-                <ul>
-                    <li><a href="{{ route("users.index") }}">Listar Usuarios</a></li>
-                    <li><a href="{{ route("users.create") }}">Crear Usuarios</a></li>
-                </ul>
-            </li>
+
+            @if(auth()->user()->role_id === 1)
+                <li> Usuarios
+                    <ul>
+                        <li><a href="{{ route("users.index") }}">Listar Usuarios</a></li>
+                        <li><a href="{{ route("users.create") }}">Crear Usuarios</a></li>
+                    </ul>
+                </li>
+            @endif
+
             <li> Productos
                 <ul>
                     <li><a href="{{ route("products.index") }}">Listar Productos</a></li>
                     <li><a href="{{ route("products.create") }}">Agregar Productos</a></li>
+                    <li><a href="{{ route("products.deleted") }}">Productos Eliminados</a></li>
+                </ul>
+            </li>
+            <li> Ventas
+                <ul>
+                    <li><a href="">Ultimas Ventas</a></li>
+                    <li><a href="{{ route("sale-orders.create") }}">Vender Productos</a></li>
+                    <li><a href="">Historial de Ventas</a></li>
                 </ul>
             </li>
         </ul>

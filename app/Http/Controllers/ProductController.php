@@ -2,23 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DeletedProduct;
 use App\Models\Product;
-use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 use Throwable;
 
 class ProductController extends Controller
 {
     /**
+     * @param Request $request
      * @return Application|Factory|View
      */
-    public function index(): View|Factory|Application
+    public function index(Request $request): View|Factory|Application
     {
-        return view("products.index",[
-            "products" => Product::paginate(10),
+        if ($request->exists("browser"))
+            $products = Product::where($request->typeSearch, "like" ,"%".$request->search."%")
+                ->paginate(10);
+
+        else $products = Product::paginate(10);
+
+        return view("products.index", [
+            "products" => $products,
+        ]);
+    }
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function deleted(): View|Factory|Application
+    {
+        return view("products.deleted",[
+            "products" => DeletedProduct::paginate(10),
         ]);
     }
 
@@ -31,14 +51,15 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
      */
-    public function store(Request $request)
+    public function store(Request $request): Redirector|RedirectResponse|Application
     {
         $request->validate([
             "name" => "unique:products",
             "code" => "unique:products"
-        ],[
+        ], [
             "name.unique" => "El producto ya existe",
             "code.unique" => "El codigo ya existe",
         ]);
@@ -52,45 +73,91 @@ class ProductController extends Controller
                 "specification" => $request->specification,
             ]);
             return redirect(route("products.index"))
-                ->with("success","El producto ".$request->name." fue registrado");
+                ->with("success", "El producto " . $request->name . " fue registrado");
 
-        }catch (Throwable $exception){
+        } catch (Throwable $exception) {
             logger(json_encode($exception->getMessage()));
             return redirect(route("products.index"))
-                ->with("error","Error al crear el producto");
+                ->with("error", "Error al crear el producto");
         }
     }
 
     /**
-     * @param string $id
-     * @return void
+     * @param Request $request
+     * @param Product $product
+     * @return Application|RedirectResponse|Redirector
      */
-    public function show(string $id)
+    public function update(Request $request, Product $product): Redirector|RedirectResponse|Application
     {
-        $user = User::find($id)->get();
+        try {
+            $product->update([
+                "price" => $request->price
+            ]);
+            $product->save();
+            return redirect(route("products.index"))
+                ->with("success", "El Producto " . $product->name . " Fue actualizado");
+
+        } catch (Throwable $exception) {
+            logger(json_encode($exception->getMessage()));
+            return redirect(route("products.index"))
+                ->with("error", "Error al editar el producto");
+        }
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * @param Request $request
+     * @param Product $product
+     * @return Application|RedirectResponse|Redirector
      */
-    public function edit(string $id)
+    public function quantity(Request $request , Product $product): Redirector|RedirectResponse|Application
     {
-        //
-    }
+        if ($request->quantity <= 0) return redirect(route("products.index"))->with("error","Ingresar numeros validos");
+        try {
+            $totalQuantity = $product->quantity + $request->quantity;
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+            $product->update([
+                "quantity" => $totalQuantity
+            ]);
+            $product->save();
+            return redirect(route("products.index"))
+                ->with("success","Fue actualizada la cantidad del producto ". $product->name);
+
+        }catch (Throwable $exception){
+            logger(json_encode($exception->getMessage()));
+            return redirect(route("products.index"))
+                ->with("error","Error al ingresar la nueva cantidad del producto");
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request,Product $product)
     {
-        //
+        $request->validate([
+            "current_password" => "current_password"
+        ],[
+            "current_password" => "Contraseña incorrecta"
+        ]);
+
+        try {
+            DeletedProduct::create([
+                "name_responsible" => Auth::user()->name,
+                "document_responsible" => Auth::user()->document,
+                "code_product" => $product->code,
+                "name_product" => $product->name,
+                "product" => json_encode($product->toArray()),
+            ]);
+
+            $product->delete();
+
+            return redirect(route("products.index"))
+                ->with("success","Se elimino el producto ". $product->name);
+
+        }catch (Throwable $exception){
+            logger($exception->getMessage());
+            return redirect(route("products.index"))
+                ->with("error","Error al eliminar el producto");
+        }
     }
 }

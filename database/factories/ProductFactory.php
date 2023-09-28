@@ -20,7 +20,7 @@ class ProductFactory extends Factory
         return [
             "code" => $this->faker->unique()->swiftBicNumber(),
             "name" => $this->faker->unique()->word(),
-            "specification" => $this->faker->text(60),
+            "specification" => $this->faker->text(100),
             "size" => rand(26,42),
             "quantity" => rand(0,100),
             "price" => rand(40000,1000000),
