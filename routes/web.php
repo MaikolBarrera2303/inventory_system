@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SaleOrderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -33,7 +32,11 @@ Route::middleware("authentication")->group(function (){
     Route::get("products/deleted",[ProductController::class,"deleted"])->name("products.deleted");
     Route::put("products/quantity/{product}",[ProductController::class,"quantity"])->name("products.quantity");
 
-    Route::resource("sale-orders",SaleOrderController::class);
+    Route::controller(SaleOrderController::class)->group(function (){
+        Route::get("sale-orders/create","create")->name("saleOrders.create");
+        Route::post("sale-orders/add-cart","addCart")->name("saleOrders.addCart");
+        Route::patch("sale-orders/empty-cart","emptyCart")->name("saleOrders.emptyCart");
+    });
 
 });
 

@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Product;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
 class SaleOrderController extends Controller
 {
@@ -16,81 +22,38 @@ class SaleOrderController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         $cart = session("cart");
+        $total = session("total");
         return view("saleOrder.create",[
-            "cart" => $cart
+            "cart" => $cart,
+            "total" => $total,
         ]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
      */
-    public function store(Request $request)
+    public function addCart(Request $request): Redirector|RedirectResponse|Application
     {
-        $requestQuantity = $request->quantity;
+        $response = (new Cart())->addCart($request->quantity,$request->code_product);
 
-        $product = Product::where("code",$request->code_product)->first();
-
-        if (!$product) dd("no hay nada");
-        if ($product->quantity < $requestQuantity) dd("no hay productos suficientes");
-
-//        $totalQuantity = $product->quantity - $requestQuantity;
-
-//        $product->update([
-//            "quantity" => $totalQuantity
-//        ]);
-//        $product->save();
-
-        $cart = session("cart");
-        $response = $this->updateQuantityCart($cart,$product->code,$requestQuantity);
-        $cart = $response["cart"];
-
-        if ($response["validate"] === false){
-            $cart[] = [
-                "code_product" => $product->code,
-                "name_product" => $product->name,
-                "quantity" => $requestQuantity,
-            ];
-        }
-
-        session(["cart" => $cart]);
-
-        return redirect(route("sale-orders.create"))->with("success","Producto agregado");
-    }
-
-    public function updateQuantityCart($cart,$code_product,$quantity)
-    {
-        $validate = false;
-        foreach ($cart as &$item) {
-            if ($item["code_product"] === $code_product) {
-                $totalQuantity = $quantity + $item["quantity"];
-                $item["quantity"] = $totalQuantity;
-                $validate = true;
-            }
-        }
-        return [
-            "cart" => $cart,
-            "validate" => $validate
-        ];
+        return redirect(route("saleOrders.create"))
+            ->with($response["type"],$response["message"]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * @return Application|RedirectResponse|Redirector
      */
-    public function update(Request $request, string $id)
+    public function emptyCart(): Redirector|RedirectResponse|Application
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        (new Cart())->emptyCart();
+        sleep(2);
+        return redirect(route("saleOrders.create"))
+            ->with("success","Venta Cancelada");
     }
 }

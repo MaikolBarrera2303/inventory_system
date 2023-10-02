@@ -14,7 +14,11 @@ return new class extends Migration
     {
         Schema::create('sales_order', function (Blueprint $table) {
             $table->id();
-            $table->string();
+            $table->dateTime("date_sale");
+            $table->string("number_facture",100)->unique();
+            $table->json("products");
+            $table->string("responsible",100);
+            $table->decimal("total",18);
             $table->timestamps();
         });
 

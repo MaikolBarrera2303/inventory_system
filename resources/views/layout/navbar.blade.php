@@ -23,7 +23,7 @@
             <li> Ventas
                 <ul>
                     <li><a href="">Ultimas Ventas</a></li>
-                    <li><a href="{{ route("sale-orders.create") }}">Vender Productos</a></li>
+                    <li><a href="{{ route("saleOrders.create") }}">Vender Productos</a></li>
                     <li><a href="">Historial de Ventas</a></li>
                 </ul>
             </li>

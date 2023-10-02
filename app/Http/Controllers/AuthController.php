@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -32,7 +33,10 @@ class AuthController extends Controller
 
         if ($user && Hash::check($request->password,$user->password)){
             Auth::login($user);
-            session(["cart" => []]);
+            session([
+                "cart" => [],
+                "total" => 0
+                ]);
             return redirect(route("users.index"));
         }
 
@@ -45,6 +49,7 @@ class AuthController extends Controller
      */
     public function destroy(): Redirector|RedirectResponse|Application
     {
+        (new Cart())->emptyCart();
         Auth::logout();
         session()->invalidate();
         session()->regenerate();
