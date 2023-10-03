@@ -9,9 +9,9 @@
     <form action="{{ route("saleOrders.addCart") }}" method="post" autocomplete="off">
         @csrf
         <label for="code_product">Codigo</label>
-        <input type="text" id="code_product" name="code_product">
+        <input type="text" id="code_product" name="code_product" required>
         <label for="quantity">Cantidad</label>
-        <input type="number" id="quantity" name="quantity">
+        <input type="number" id="quantity" name="quantity" required>
         <button type="submit">Agregar Producto</button>
     </form>
 
@@ -41,16 +41,15 @@
 
     <h4 style="margin: 40px">Total: {{ "$ ".number_format($total,0,",",'.') }}</h4>
 
-    <form style="margin-top: 60px">
-        <button>Procesar Venta</button>
+    <form action="{{ route("saleOrders.sales") }}" method="post" style="margin-top: 60px">
+        @csrf
+        <button type="submit">Procesar Venta</button>
     </form>
 
-    <form action="{{ route("saleOrders.emptyCart") }}" method="post">
+    <form action="{{ route("saleOrders.emptyCart") }}" method="post" style="margin-top: 20px">
         @csrf
         @method("PATCH")
-        <button>Cancelar venta</button>
+        <button type="submit">Cancelar venta</button>
     </form>
-
-
 
 @endsection

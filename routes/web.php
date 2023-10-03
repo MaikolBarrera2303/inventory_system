@@ -34,7 +34,9 @@ Route::middleware("authentication")->group(function (){
 
     Route::controller(SaleOrderController::class)->group(function (){
         Route::get("sale-orders/create","create")->name("saleOrders.create");
+        Route::get("sale-orders/last-sales","index")->name("saleOrders.index");
         Route::post("sale-orders/add-cart","addCart")->name("saleOrders.addCart");
+        Route::post("sale-orders/sales","sales")->name("saleOrders.sales");
         Route::patch("sale-orders/empty-cart","emptyCart")->name("saleOrders.emptyCart");
     });
 

@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('sales_order', function (Blueprint $table) {
             $table->id();
-            $table->dateTime("date_sale");
+            $table->date("date_sale");
             $table->string("number_facture",100)->unique();
             $table->json("products");
             $table->string("responsible",100);
