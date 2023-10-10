@@ -20,7 +20,9 @@ return new class extends Migration
             $table->string("size",100);
             $table->bigInteger("quantity");
             $table->decimal("price",18);
+            $table->decimal("tax",4);
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::table('products', function (Blueprint $table){

@@ -21,7 +21,8 @@
             <th scope="col">CODIGO</th>
             <th scope="col">NOMBRE</th>
             <th scope="col">CANTIDAD</th>
-            <th scope="col">PRECIO UNITARIO</th>
+            <th scope="col">PRECIO UNITARIO CON IVA</th>
+            <th scope="col">IVA</th>
             <th scope="col">TOTAL</th>
         </tr>
         </thead>
@@ -32,7 +33,8 @@
                 <th scope="row">{{ $item["code_product"] }}</th>
                 <td>{{ $item["name_product"] }}</td>
                 <td>{{ $item["quantity"] }}</td>
-                <td>{{ "$ ".number_format($item["price"],0,",",'.') }}</td>
+                <td>{{ "$ ".number_format(($item["price"]),0,",",'.') }}</td>
+                <td>{{ ($item["tax"]*100)."%" }}</td>
                 <td>{{ "$ ".number_format($item["totalPrice"],0,",",'.') }}</td>
             </tr>
         @endforeach

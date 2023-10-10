@@ -32,8 +32,17 @@
         <input type="number" id="quantity" name="quantity" required value="{{ old("quantity") }}">
         <br>
 
-        <label for="price">Precio</label>
+        <label for="price">Precio sin iva</label>
         <input type="number" id="price" name="price" required value="{{ old("price") }}">
+        <br>
+
+        <label for="tax">iva</label>
+        <input type="text" id="tax" name="tax" required value="{{ old("price") }}">
+        @error("tax")
+        <div class="alert alert-danger" role="alert">
+            {{ $message }}
+        </div>
+        @enderror
         <br>
 
         <label for="specification">Especificacion</label>

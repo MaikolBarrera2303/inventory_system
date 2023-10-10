@@ -16,6 +16,6 @@ class DeletedProduct extends Model
         "document_responsible",
         "code_product",
         "name_product",
-        "product",
+        "id_product",
     ];
 }

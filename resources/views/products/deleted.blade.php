@@ -12,6 +12,7 @@
             <th scope="col">CODIGO PRODUCTO</th>
             <th scope="col">NOMBRE PRODUCTO</th>
             <th scope="col">FECHA ELIMINACION</th>
+            <th scope="col">OPCIONES</th>
         </tr>
         </thead>
         <tbody>
@@ -22,6 +23,11 @@
                 <td>{{ $product->code_product }}</td>
                 <td>{{ $product->name_product }}</td>
                 <td>{{ $product->created_at }}</td>
+                <td>
+                    <a href="{{ route("products.restore",$product->code_product) }}">
+                        Restablecer Producto
+                    </a>
+                </td>
             </tr>
 
         @endforeach

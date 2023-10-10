@@ -27,10 +27,11 @@ class Cart
                 "message" => "No hay suficiente stock del producto: ".$product->name,
             ];
 
+        $priceFinish = (($product->price*$product->tax)+$product->price);
         $totalQuantity = $product->quantity - $requestQuantity;
         $product->update(["quantity" => $totalQuantity]);
 
-        $totalPrice = $product->price * $requestQuantity;
+        $totalPrice = $priceFinish * $requestQuantity;
 
         $response = $this->updateQuantityCart(session("cart"),$product->code,$requestQuantity);
         $cart = $response["cart"];
@@ -40,7 +41,8 @@ class Cart
                 "code_product" => $product->code,
                 "name_product" => $product->name,
                 "quantity" => $requestQuantity,
-                "price" => $product->price,
+                "price" => $priceFinish,
+                "tax" => $product->tax,
                 "totalPrice" => $totalPrice,
             ];
         }

@@ -15,6 +15,7 @@
                             Precio: {{ $product->name_product }} <br>
                             Cantidad: {{ $product->quantity }} <br>
                             Precio Unitario: {{ "$ ".number_format($product->price,0,",",'.') }} <br>
+                            IVA: {{ ($product->tax*100)."%" }} <br>
                             Precio total: {{ "$ ".number_format($product->totalPrice,0,",",'.') }} <br>
                         </span>
                         <br>

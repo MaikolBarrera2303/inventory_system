@@ -22,8 +22,9 @@ class ProductFactory extends Factory
             "name" => $this->faker->unique()->word(),
             "specification" => $this->faker->text(100),
             "size" => rand(26,42),
-            "quantity" => rand(0,100),
-            "price" => rand(40000,1000000),
+            "quantity" => rand(0,60),
+            "price" => rand(40000,800000),
+            "tax" => $this->faker->randomFloat(2,0.16,0.20),
         ];
     }
 }

@@ -26,11 +26,13 @@ Route::post("login",[AuthController::class,"store"]);
 Route::post("logout",[AuthController::class,"destroy"])->name("logout");
 
 Route::middleware("authentication")->group(function (){
-    Route::resource("users",UserController::class);
-    Route::resource("products",ProductController::class)
-        ->except("show");
+
+    Route::resource("users",UserController::class)->only("index","create","store");
+
+    Route::resource("products",ProductController::class)->except("show");
     Route::get("products/deleted",[ProductController::class,"deleted"])->name("products.deleted");
     Route::put("products/quantity/{product}",[ProductController::class,"quantity"])->name("products.quantity");
+    Route::get("products/restore/{code}",[ProductController::class,"restore"])->name("products.restore");
 
     Route::controller(SaleOrderController::class)->group(function (){
         Route::get("sale-orders/create","create")->name("saleOrders.create");

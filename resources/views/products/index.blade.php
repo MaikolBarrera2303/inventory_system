@@ -24,7 +24,10 @@
             <th scope="col">NOMBRE</th>
             <th scope="col">CANTIDAD</th>
             <th scope="col"></th>
-            <th scope="col">PRECIO</th>
+            <th scope="col">PRECIO SIN IVA</th>
+            <th scope="col">IVA</th>
+            <th scope="col">VALOR DE IVA</th>
+            <th scope="col">PRECIO CON IVA</th>
             <th scope="col">OPCIONES</th>
         </tr>
         </thead>
@@ -40,6 +43,9 @@
                     @endif
                 </td>
                 <td>{{ "$ ".number_format($product->price,0,",",'.') }}</td>
+                <td>{{ ($product->tax*100)."%" }}</td>
+                <td>{{ "$ ".number_format(($product->price*$product->tax),0,",",'.') }}</td>
+                <td>{{ "$ ".number_format((($product->price*$product->tax)+$product->price),0,",",'.') }}</td>
                 <td>
                     <a type="button" class="link-underline-info" data-bs-toggle="modal"
                        data-bs-target="#products_show{{ $product->id }}">

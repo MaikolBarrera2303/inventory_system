@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string("document_responsible",100);
             $table->string("code_product",100);
             $table->string("name_product",100);
-            $table->json("product");
+            $table->integer("id_product");
             $table->timestamps();
         });
 

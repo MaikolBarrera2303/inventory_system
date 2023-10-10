@@ -28,7 +28,11 @@
                         <br>
 
                         <label for="price">Precio</label>
-                        <input type="number" id="price" name="price" value="{{ $product->price }}" required>
+                        <input type="number" id="price" name="price" value="{{ intval($product->price) }}" required>
+                        <br>
+
+                        <label for="tax">IVA</label>
+                        <input type="text" id="tax" value="{{ $product->tax }}" disabled>
                         <br>
 
                         <label for="specification">Especificacion</label>

@@ -21,3 +21,9 @@
         {{ session("message") }}
     </div>
 @endif
+
+@error("quantity")
+    <div class="alert alert-danger" role="alert">
+        {{ $message }}
+    </div>
+@enderror

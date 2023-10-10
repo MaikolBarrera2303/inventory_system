@@ -33,6 +33,10 @@
                     <input type="number" id="price" value="{{ number_format($product->price,0,",",'.') }}" disabled>
                     <br>
 
+                    <label for="tax">IVA</label>
+                    <input type="text" id="tax" value="{{ $product->tax }}" disabled>
+                    <br>
+
                     <label for="specification">Especificacion</label>
                     <textarea id="specification" disabled>{{ $product->specification }}</textarea>
                     <br>
