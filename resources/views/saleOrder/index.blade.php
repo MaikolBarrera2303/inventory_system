@@ -7,8 +7,8 @@
     <table class="table">
         <thead>
         <tr>
-            <th scope="col">No FACTURA</th>
             <th scope="col">FECHA</th>
+            <th scope="col">No FACTURA</th>
             <th scope="col">RESPONSABLE</th>
             <th scope="col">TOTAL</th>
             <th scope="col">PRODUCTOS</th>
@@ -18,8 +18,10 @@
 
         @foreach($sales as $sale)
             <tr>
-                <th scope="row">{{ $sale->number_facture }}</th>
-                <td>{{ $sale->date_sale }}</td>
+                <td>
+                    {{ strftime('%d de %B de %Y', strtotime($sale->date_sale))  }}
+                </td>
+                <td>{{ $sale->number_facture }}</td>
                 <td>{{ $sale->responsible }}</td>
                 <td>{{ "$ ".number_format($sale->total,0,",",'.') }}</td>
                 <td> <a type="button" data-bs-toggle="modal"

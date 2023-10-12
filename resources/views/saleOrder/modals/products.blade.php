@@ -12,7 +12,7 @@
                         <h6>Producto {{ $product->name_product }}</h6>
                         <span>
                             Codigo: {{ $product->code_product }} <br>
-                            Precio: {{ $product->name_product }} <br>
+                            Nombre: {{ $product->name_product }} <br>
                             Cantidad: {{ $product->quantity }} <br>
                             Precio Unitario: {{ "$ ".number_format($product->price,0,",",'.') }} <br>
                             IVA: {{ ($product->tax*100)."%" }} <br>

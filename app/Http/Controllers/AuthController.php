@@ -37,7 +37,7 @@ class AuthController extends Controller
                 "cart" => [],
                 "total" => 0
                 ]);
-            return redirect(route("users.index"));
+            return redirect(route("saleOrders.index"));
         }
 
         return redirect(route("login"))->with("message","Credenciales Incorrectas");

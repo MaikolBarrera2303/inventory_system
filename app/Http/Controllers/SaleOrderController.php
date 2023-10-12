@@ -21,8 +21,10 @@ class SaleOrderController extends Controller
      */
     public function index()
     {
+        setlocale(LC_TIME,"es_ES");
+//        $sale = Sale::latest()->paginate(10);
         return view("saleOrder.index",[
-            "sales" => Sale::latest()->take(10)->get(),
+            "sales" => Sale::latest()->paginate(10),
         ]);
     }
 
