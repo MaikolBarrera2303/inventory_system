@@ -13,6 +13,20 @@ class Cart
      */
     public function addCart($requestQuantity,$requestCode): array
     {
+        if ($requestQuantity == 0)
+            return [
+                "type" => "error",
+                "message" => "Ingrese un valor diferente a 0",
+            ];
+
+        if ($requestQuantity < 0){
+            $response = $this->subtractCart($requestCode,$requestQuantity);
+            return [
+                "type" => $response["type"],
+                "message" => $response["message"],
+            ];
+        }
+
         $product = Product::where("code",$requestCode)->first();
 
         if (!$product)
@@ -108,4 +122,58 @@ class Cart
 
     }
 
+
+    public function subtractCart($requestCode,$requestQuantity)
+    {
+        $cart = session("cart");
+
+        if ($cart === []){
+            return [
+                "type" => "error",
+                "message" => "No se puede restar un producto si no existe en el carrito",
+            ];
+        }
+
+        foreach ($cart as $key => &$item){
+            if ($requestCode === $item["code_product"]){
+                $totalQuantity = $requestQuantity + $item["quantity"];
+                if ($totalQuantity === 0){
+                    unset($cart[$key]);
+                    $product = Product::where("code",$requestCode)->first();
+                    $totalQuantity = $product->quantity - $requestQuantity;
+                    $product->update(["quantity" => $totalQuantity]);
+
+                    session(["total" => array_sum(array_column($cart,'totalPrice'))]);
+                    session(["cart" => $cart]);
+                    return [
+                        "type" => "success",
+                        "message" => "Articulo eliminado",
+                    ];
+                }
+
+                if ($totalQuantity < 0)
+                    return [
+                        "type" => "error",
+                        "message" => "Esta eliminando mas productos de los que existen",
+                    ];
+
+                if ($totalQuantity > 0){
+                    $product = Product::where("code",$requestCode)->first();
+                    $sumQuantity = $product->quantity + abs($requestQuantity);
+                    $product->update(["quantity" => $sumQuantity]);
+                    $item["quantity"] = $totalQuantity;
+
+                    $item["totalPrice"] = $item["price"] * $totalQuantity;
+
+                    session(["total" => array_sum(array_column($cart,'totalPrice'))]);
+
+                    session(["cart" => $cart]);
+                    return [
+                        "type" => "success",
+                        "message" => "Se modifico la cantidad de articulos",
+                    ];
+                }
+            }
+        }
+    }
 }
