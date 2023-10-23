@@ -6,22 +6,28 @@
 
     @include("layout.messages")
 
-    {{--
-    Formulario para el Login , no modificar :
-        - lo que esta dentro {{  }}
-        - nombres de los campos
-        - @csrf
-        - method del formulario
-    --}}
-    <form action="{{ route("login") }}" method="post" autocomplete="off">
-        @csrf
-        <label for="document">No Documento</label>
-        <input type="text" name="document" id="document" required>
-        <br>
-        <label for="password">Contraseña</label>
-        <input id="password" name="password" type="password" required>
-        <br>
-        <button type="submit">Iniciar Sesion</button>
-    </form>
+    <div class="container" style="margin-top: 100px">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form action="{{ route("login") }}" method="post" autocomplete="off" class="p-3 rounded bg-light">
+                    @csrf
+                    <div class="form-group mb-3">
+                        <label for="document">No Documento</label>
+                        <input type="text" name="document" id="document" class="form-control" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="password">Contraseña</label>
+                        <input id="password" name="password" type="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 
 @endsection

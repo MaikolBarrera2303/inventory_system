@@ -3,55 +3,66 @@
 @section("title","Registro Usuarios")
 
 @section("content")
-
-    <form action="{{ route("products.store") }}" method="post">
+    <div class="d-flex justify-content-center align-items-center" style="height: 60vh;">
+        <form action="{{ route("products.store") }}" method="post" class="w-50">
         @csrf
-        <label for="name">Nombre</label>
-        <input type="text" id="name" name="name" required>
-        @error("name")
-        <div class="alert alert-danger" role="alert">
-            {{ $message }}
-        </div>
-        @enderror
-        <br>
 
-        <label for="code">Codigo</label>
-        <input type="text" id="code" name="code" required>
-        @error("code")
-        <div class="alert alert-danger" role="alert">
-            {{ $message }}
-        </div>
-        @enderror
-        <br>
+            <!-- Nombre -->
+            <div class="mb-3">
+                <input type="text" id="name" name="name" class="form-control" placeholder="Nombre" required>
+                @error("name")
+                <div class="alert alert-danger mt-2" role="alert">
+                    {{ $message }}
+                </div>
+                @enderror
+            </div>
 
-        <label for="size">Talla</label>
-        <input type="text" id="size" name="size" required value="{{ old("size") }}">
-        <br>
+            <!-- Codigo -->
+            <div class="mb-3">
+                <input type="text" id="code" name="code" class="form-control" placeholder="Codigo" required>
+                @error("code")
+                <div class="alert alert-danger mt-2" role="alert">
+                    {{ $message }}
+                </div>
+                @enderror
+            </div>
 
-        <label for="quantity">Cantidad</label>
-        <input type="number" id="quantity" name="quantity" required value="{{ old("quantity") }}">
-        <br>
+            <!-- Talla -->
+            <div class="mb-3">
+                <input type="text" id="size" name="size" class="form-control" placeholder="Talla" value="{{ old("size") }}">
+            </div>
 
-        <label for="price">Precio sin iva</label>
-        <input type="number" id="price" name="price" required value="{{ old("price") }}">
-        <br>
+            <!-- Cantidad -->
+            <div class="mb-3">
+                <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Cantidad" value="{{ old("quantity") }}" required>
+            </div>
 
-        <label for="tax">iva</label>
-        <input type="text" id="tax" name="tax" required value="{{ old("price") }}">
-        @error("tax")
-        <div class="alert alert-danger" role="alert">
-            {{ $message }}
-        </div>
-        @enderror
-        <br>
+            <!-- Precio sin IVA -->
+            <div class="mb-3">
+                <input type="number" id="price" name="price" class="form-control" placeholder="Precio sin IVA" value="{{ old("price") }}" required>
+            </div>
 
-        <label for="specification">Especificacion</label>
-        <textarea id="specification" name="specification" required>{{ old("specification") }}</textarea>
-        <br>
+            <!-- IVA -->
+            <div class="mb-3">
+                <input type="text" id="tax" name="tax" class="form-control" placeholder="IVA" value="{{ old("tax") }}" required>
+                @error("tax")
+                <div class="alert alert-danger mt-2" role="alert">
+                    {{ $message }}
+                </div>
+                @enderror
+            </div>
 
+            <!-- Especificación -->
+            <div class="mb-3">
+                <textarea id="specification" name="specification" class="form-control" placeholder="Especificación" required>{{ old("specification") }}</textarea>
+            </div>
 
-        <button type="submit">Guardar</button>
-
+            <!-- Submit Button (Centered) -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
     </form>
+    </div>
+
 
 @endsection

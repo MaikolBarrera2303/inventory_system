@@ -8,7 +8,7 @@
     <title>@yield("title")</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
 </head>
-<body>
+<body style="background-color: rgb(129, 176, 238)">
 
 @include("layout.navbar")
 

@@ -7,20 +7,19 @@
             </div>
             <div class="modal-body">
                 <div class="form-body row g-3">
-                    <form class="row g-3" action="{{ route("products.quantity",$product->id) }}" method="POST" autocomplete="off">
+                    <form class="row g-3" action="{{ route("products.quantity", $product->id) }}" method="POST" autocomplete="off">
                         @csrf
                         @method('PUT')
 
-                        <!-- ID Rol -->
+                        <!-- Quantity Input -->
                         <div class="col-12">
-                            <label for="quantity">Ingresar Cantidad</label>
-                            <input type="number" id="quantity" name="quantity">
+                            <label for="quantity" class="form-label">Ingresar Cantidad</label>
+                            <input type="number" id="quantity" name="quantity" class="form-control">
                         </div>
 
-                        <div class="col-12">
-                            <div class="d-grid">
-                                <button type="submit" id="button_register">Agregar</button>
-                            </div>
+                        <!-- Submit Button (Centered) -->
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-primary">Agregar</button>
                         </div>
                     </form>
                 </div>
@@ -28,3 +27,4 @@
         </div>
     </div>
 </div>
+

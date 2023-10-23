@@ -7,20 +7,19 @@
             </div>
             <div class="modal-body">
                 <div class="form-body row g-3">
-                    <form class="row g-3" action="{{ route("products.destroy",$product->id) }}" method="POST" autocomplete="off">
+                    <form class="row g-3" action="{{ route("products.destroy", $product->id) }}" method="POST" autocomplete="off">
                         @csrf
                         @method('DELETE')
 
-                        <!-- ID Rol -->
+                        <!-- Password Input -->
                         <div class="col-12">
-                            <label for="current_password">Ingresar Contraseña</label>
-                            <input type="number" id="current_password" name="current_password">
+                            <label for="current_password" class="form-label">Ingresar Contraseña</label>
+                            <input type="password" id="current_password" name="current_password" class="form-control">
                         </div>
 
-                        <div class="col-12">
-                            <div class="d-grid">
-                                <button type="submit" id="button_register">Eliminar</button>
-                            </div>
+                        <!-- Submit Button (Centered) -->
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
                         </div>
                     </form>
                 </div>
@@ -28,3 +27,4 @@
         </div>
     </div>
 </div>
+
